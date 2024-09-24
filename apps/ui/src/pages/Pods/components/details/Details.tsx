@@ -163,9 +163,9 @@ const Details = ({ resource }: DetailsProps) => {
             <Box mt={1} display={'flex'} flexDirection={'column'} gap={2}>
               <div>
                 <TypographyPrimary value="Instance Pricing" size="medium" />
-                <Box mt={0.5} display={'flex'}>
+                <Box mt={0.5} display={'flex'} gap={2} flexWrap={'wrap'}>
                   {plan_cards.map((plan, index) => (
-                    <Box key={index} ml={index > 0 ? 2 : 0}>
+                    <Box key={index}>
                       <PodPlanCard plan={plan} selectedPlan={selectedPlan} handleSelectPlan={handleSelectPlan} />
                     </Box>
                   ))}

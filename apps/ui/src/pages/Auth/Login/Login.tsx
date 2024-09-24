@@ -1,4 +1,5 @@
 import { FormikProvider } from 'formik'
+import { Link } from 'react-router-dom';
 
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
@@ -16,7 +17,6 @@ import githubIcon from 'assets/icons/githubIcon.png'
 import googleIcon from 'assets/tools/google.png'
 
 import './login.css'
-import { useModal } from 'hooks'
 import {
   StyledImageWrapper,
   StyledImg,
@@ -28,6 +28,7 @@ import TypographyPrimary from 'components/Typography/Primary'
 import HeadingSecondary from 'components/Heading/Secondary'
 import { ButtonPrimary } from 'components/Button/Button'
 import { useDomainConfig } from 'utils/useDomainConfig'
+import { TypographySizes } from '../../../share-ui/components/typography/TypographyConstants';
 import useGoogleLogin from './useGoogleLogin'
 
 const ErrorResendVerification = ({ resendVerifyEmail }: any) => (
@@ -44,15 +45,12 @@ const Login = () => {
   const loginConfig = getDomainConfig('login_page')
 
   const { t } = useTranslation()
-  const { formik, alertMessage, showResendAlert, resendVerifyEmailHandle } = useLogin()
+  const { formik, alertMessage, showResendAlert, resendVerifyEmailHandle, isLoading } = useLogin()
   const { githubLogin } = useGithubLogin()
   const { googleLogin } = useGoogleLogin()
-  const { openModal } = useModal()
 
   return (
     <StyledCenterFormContainer>
-      {alertMessage.message && alertMessage.type && <span>{alertMessage.message}</span>}
-
       {showResendAlert && <ErrorResendVerification resendVerifyEmail={resendVerifyEmailHandle} />}
 
       <StyledHeaderWrapper>
@@ -145,7 +143,9 @@ const Login = () => {
           </FormikProvider>
         )}
 
-        <ButtonPrimary onClick={() => formik.handleSubmit()} size={Button.sizes?.MEDIUM}>
+        {alertMessage.message && alertMessage.type && <TypographyPrimary value={alertMessage.message} size={TypographySizes.sm} />}
+
+        <ButtonPrimary onClick={() => formik.handleSubmit()} size={Button.sizes?.MEDIUM} loading={isLoading}>
           {t('start')}
         </ButtonPrimary>
 
@@ -155,25 +155,23 @@ const Login = () => {
             type={Typography.types.label}
             size={Typography.sizes.md}
           />
-          <button
-            onClick={() => {
-              openModal({ name: 'login-modal', data: { isRegister: true } })
-            }}
-          >
+          <Link to="/register" style={{
+            textDecoration: 'none',
+          }}>
             <TypographyPrimary
               value={t('sign-up')}
               type={Typography.types.label}
               size={Typography.sizes.md}
-              as={'a'}
+              as={Link}
+              to="/register"
               style={{
                 textDecorationLine: 'underline',
                 cursor: 'pointer',
                 textAlign: 'center',
                 textUnderlineOffset: 5,
-                marginTop: 18,
               }}
             />
-          </button>
+          </Link>
         </StyledSignUpWrapper>
       </StyledFormContainer>
     </StyledCenterFormContainer>
@@ -201,10 +199,11 @@ export const StyledInputWrapper = styled.div`
 export const StyledHeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0 87px;
   align-items: center;
   text-align: center;
   gap: 22px;
 
   margin-top: 10px;
+  max-width: 400px;
+  padding: 0 16px;
 `

@@ -1,14 +1,14 @@
 import { StyledAppContainer } from 'components/Layout/LayoutStyle'
+import { useState } from 'react';
 import ListHeader from 'routes/components/ListHeader'
 
 import {
-  StyledChatWrapper,
-  StyledContainer,
-  StyledLeftColumn,
-  StyledMainWrapper,
+  StyledChatWrapper, StyledContainer, StyledLeftColumn, StyledMainWrapper, StyledMenu,
 } from 'routes/ChatRouteLayout'
 import { useNavigate, useOutlet, useParams } from 'react-router-dom'
 import Box from '@mui/material/Box'
+import TypographyPrimary from '../../components/Typography/Primary';
+import { BurgerMenu } from '../../share-ui/components/Icon/Icons';
 import { usePod } from './usePods'
 
 import PodListCard from './cards/PodListCard'
@@ -18,6 +18,7 @@ const Pods = () => {
   const { pods, pods_loading } = usePod()
   const navigate = useNavigate()
   const outlet = useOutlet()
+  const [showSidebar, setShowSidebar] = useState(false)
 
   const params = useParams()
 
@@ -27,45 +28,45 @@ const Pods = () => {
     <StyledAppContainer>
       <StyledContainer>
         <StyledMainWrapper>
-          <>
-            {pods?.length === 0 && pods_loading ? (
-              <StyledLeftColumn customWidth={400}>
+          {pods?.length === 0 && pods_loading ? (
+            <StyledLeftColumn customWidth={400} showSidebarMobile={showSidebar}>
+              <Box display={'flex'} flexDirection={'column'} sx={{ paddingRight: 1.5 }}>
+                <ListHeader title={'Pods'} onAddClick={() => navigate('/pods/create-pod')} />
+                <PodCardLoader />
+                <PodCardLoader />
+                <PodCardLoader />
+              </Box>
+            </StyledLeftColumn>
+          ) : pods.length > 0 &&(
+            <>
+              <StyledMenu onClick={() => setShowSidebar(prevState => !prevState)} title="Toggle Menu">
+                <BurgerMenu size={30} /> <TypographyPrimary value="Toggle Pods" size='small' />
+              </StyledMenu>
+
+              <StyledLeftColumn customWidth={400} showSidebarMobile={showSidebar}>
                 <Box display={'flex'} flexDirection={'column'} sx={{ paddingRight: 1.5 }}>
                   <ListHeader title={'Pods'} onAddClick={() => navigate('/pods/create-pod')} />
-                  <PodCardLoader />
-                  <PodCardLoader />
-                  <PodCardLoader />
+
+                  {pods.map((item: any, index: number) => (
+                    <PodListCard
+                      key={index}
+                      onClick={() => navigate(`/pods/details/${item.id}`)}
+                      isSelected={params?.id === item.id}
+                      name={item.pod_name}
+                      templateImage={item.template_container_image}
+                      resource={{
+                        name: item.resource_display_name,
+                        ram: item.resource_ram,
+                      }}
+                      status={item.status}
+                    />
+                  ))}
                 </Box>
               </StyledLeftColumn>
-            ) : (
-              <>
-                {pods?.length > 0 && (
-                  <StyledLeftColumn customWidth={400}>
-                    <Box display={'flex'} flexDirection={'column'} sx={{ paddingRight: 1.5 }}>
-                      <ListHeader title={'Pods'} onAddClick={() => navigate('/pods/create-pod')} />
+            </>
+          )}
 
-                      {pods.map((item: any, index: number) => (
-                        <PodListCard
-                          key={index}
-                          onClick={() => navigate(`/pods/details/${item.id}`)}
-                          isSelected={params?.id === item.id}
-                          name={item.pod_name}
-                          templateImage={item.template_container_image}
-                          resource={{
-                            name: item.resource_display_name,
-                            ram: item.resource_ram,
-                          }}
-                          status={item.status}
-                        />
-                      ))}
-                    </Box>
-                  </StyledLeftColumn>
-                )}
-              </>
-            )}
-
-            <StyledChatWrapper>{outlet}</StyledChatWrapper>
-          </>
+          <StyledChatWrapper>{outlet}</StyledChatWrapper>
         </StyledMainWrapper>
       </StyledContainer>
     </StyledAppContainer>

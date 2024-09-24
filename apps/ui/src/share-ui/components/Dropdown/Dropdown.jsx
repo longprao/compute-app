@@ -327,6 +327,7 @@ const Dropdown = ({
         withMandatoryDefaultOptions={withMandatoryDefaultOptions}
         isOptionSelected={isOptionSelected}
         aria-details={tooltipContent}
+        className={'react-select'}
         {...asyncAdditions}
         {...additions}
       />

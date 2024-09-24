@@ -12,13 +12,27 @@ export const StyledContainer = styled.div`
   position: relative;
   /* gap: 20px; */
   padding-right: 16px;
+
+  @media screen and (max-width: 990px) {
+    padding-right: 0;
+  }
+`
+export const StyledMenu = styled.button`
+  display: none;
+  margin-bottom: 16px;
+
+  @media screen and (max-width: 990px) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 `
 export const StyledLeftColumn = styled.div<{
   isHidden?: boolean
   isSmallScreen?: boolean
   customWidth?: number
+  showSidebarMobile?: boolean
 }>`
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -26,14 +40,27 @@ export const StyledLeftColumn = styled.div<{
   padding-top: 0px;
 
   height: 100%;
-  min-width: ${({ customWidth }) => (customWidth ? `${customWidth}px` : '270px')};
-  max-width: ${({ customWidth }) => (customWidth ? `${customWidth}px` : '270px')};
+  width: ${({ customWidth }) => (customWidth ? `${customWidth}px` : '270px')};
 
   transition: margin-left 0.3s ease-in-out;
 
   border-right: ${({ theme }) => theme.body.secondaryBorder};
 
   /* margin: 0 16px; */
+
+  @media screen and (max-width: 990px) {
+    width: auto;
+    height: auto;
+    border-right: none;
+    border-bottom: ${({ theme }) => theme.body.secondaryBorder};
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    display: none;
+    
+    ${({ showSidebarMobile }) => showSidebarMobile && css`
+      display: block;
+    `}
+  }
 
   ${props =>
     props.isHidden &&
@@ -48,7 +75,6 @@ export const StyledLeftColumn = styled.div<{
 export const StyledRightColumn = styled.div<{ isHidden?: boolean }>`
   backdrop-filter: blur(100px);
 
-  overflow-y: auto;
 
   display: flex;
   max-width: 300px;
@@ -90,17 +116,23 @@ export const StyledMainWrapper = styled.div<{ customWidth?: string }>`
 
   /* gap: 12px; */
   /* max-width: 1400px; */
+
+  @media screen and (max-width: 990px) {
+    display: block;
+  }
 `
 export const StyledChatWrapper = styled.div`
   height: 100%;
-  width: 100%;
+  flex: 1;
 
   display: flex;
   flex-direction: column;
 
-  overflow: auto;
-
   position: relative;
+
+  @media screen and (max-width: 990px) {
+    height: auto;
+  }
 `
 const StyledOutletWrapper = styled.div`
   width: 100%;

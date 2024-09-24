@@ -4,6 +4,7 @@ import Dropdown from 'components/Dropdown';
 import FormikTextField from 'components/TextFieldFormik';
 import TextareaFormik from 'components/TextareaFormik';
 import { FormikProvider } from 'formik';
+import styled from 'styled-components';
 
 import { StyledFormInputWrapper } from 'styles/formStyles.css';
 import { StyledPanelWrapper } from 'styles/panelStyles.css';
@@ -23,7 +24,7 @@ const Settings = ({ formik }: { formik: any }) => {
     <FormikProvider value={formik}>
       <StyledPanelWrapper>
         <StyledFormInputWrapper noPadding style={{ paddingLeft: '5px' }}>
-          <Box display={'grid'} gridTemplateColumns={'1fr 1fr'} gap={3}>
+          <StyledGrid>
             <FormikTextField
               name="template_config.template_data.container_image"
               placeholder={'Container Image'}
@@ -39,23 +40,23 @@ const Settings = ({ formik }: { formik: any }) => {
               size={'small'}
               labelGap={4}
             />
-          </Box>
+          </StyledGrid>
 
-          <Box>
-            <TextareaFormik
-              setFieldValue={(field: string, value: string) => formik.setFieldValue(field, value)}
-              label={'Container Start Command'}
-              value={formik.values.template_config?.template_data?.container_start_command}
-              fieldName={'template_config.template_data.container_start_command'}
-            />
-          </Box>
-          <Box display={'grid'} gridTemplateColumns={'1fr 1fr'} gap={3}>
-            <Box display={'grid'} gridTemplateColumns={'1fr 1fr'} gap={3}>
+          <TextareaFormik
+            setFieldValue={(field: string, value: string) => formik.setFieldValue(field, value)}
+            label={'Container Start Command'}
+            value={formik.values.template_config?.template_data?.container_start_command}
+            fieldName={'template_config.template_data.container_start_command'}
+          />
+
+          <StyledGrid>
+            <StyledGroup>
               <FormikTextField
                 name="template_config.template_data.container_disk"
                 placeholder={'Container Disc'}
                 label={'Container Disc'}
               />
+
               {formik.values.template_config?.template_data?.compute_type !== 'cpu' && (
                 <FormikTextField
                   name="template_config.template_data.volume_disk"
@@ -63,7 +64,8 @@ const Settings = ({ formik }: { formik: any }) => {
                   label={'Volume Disc'}
                 />
               )}
-            </Box>
+            </StyledGroup>
+
             {formik.values.template_config?.template_data?.compute_type !== 'cpu' && (
               <FormikTextField
                 name="template_config.template_data.volume_mount_path"
@@ -71,8 +73,9 @@ const Settings = ({ formik }: { formik: any }) => {
                 label={'Volume Mount Path'}
               />
             )}
-          </Box>
-          <Box display={'grid'} gridTemplateColumns={'1fr 1fr'} gap={3}>
+          </StyledGrid>
+
+          <StyledGrid>
             <FormikTextField
               name="template_config.template_data.expose_http_ports"
               placeholder={'Expose HTTP Ports (Max 10)'}
@@ -83,7 +86,7 @@ const Settings = ({ formik }: { formik: any }) => {
               placeholder={'Expose TCP Ports'}
               label={'Expose TCP Ports'}
             />
-          </Box>
+          </StyledGrid>
         </StyledFormInputWrapper>
       </StyledPanelWrapper>
     </FormikProvider>
@@ -91,3 +94,20 @@ const Settings = ({ formik }: { formik: any }) => {
 };
 
 export default Settings;
+
+const StyledGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+  }
+`
+
+const StyledGroup = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+`

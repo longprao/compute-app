@@ -130,6 +130,7 @@ const EnvVariables = ({ formik }: { formik: FormikProps<FormValues> }) => {
               />
               <OutlinedInput
                 name='value'
+                size='small'
                 disabled={
                   formik.values.environment_variables.env[index].value.includes('{{ DATURA_SECRET_')
                     ? true
@@ -154,20 +155,24 @@ const EnvVariables = ({ formik }: { formik: FormikProps<FormValues> }) => {
                         secrets,
                       })}
 
-                      {/* <KeyIcon 
-                                            fontSize='medium' 
-                                            cursor={'pointer'} 
+                      {/* <KeyIcon
+                                            fontSize='medium'
+                                            cursor={'pointer'}
                                             onClick={() => handleOpenSecretModal(index)}
                                         /> */}
-                      {/* <LockIcon 
+                      {/* <LockIcon
                                             fontSize='medium'
                                             onClick={() => formik.setFieldValue(`environment_variables.env.${index}.value`, '')}
                                         /> */}
                     </Box>
                   </InputAdornment>
                 }
+                style={{
+                  background: 'rgba(255,255,255,0.3)',
+                  borderRadius: 6,
+                }}
               />
-              <Box sx={{ cursor: 'pointer' }} onClick={() => handleDeleteRow(index)}>
+              <Box sx={{ cursor: 'pointer', color: 'white' }} display={'flex'} alignItems={'center'} onClick={() => handleDeleteRow(index)}>
                 <ClearIcon />
               </Box>
             </>

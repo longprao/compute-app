@@ -49,11 +49,6 @@ const HomeRouteLayout = () => {
 export default HomeRouteLayout;
 
 export const StyledLoginWrapper = styled.div`
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-
   display: flex;
   flex-direction: column;
 

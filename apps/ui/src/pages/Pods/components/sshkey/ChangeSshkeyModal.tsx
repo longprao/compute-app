@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import withRenderModal from 'hocs/withRenderModal';
 
@@ -29,57 +30,65 @@ const ChangeSshKeyModal = ({ data: { onChangeSshKey } }: ChangeSshKeyModalProps)
   return (
     <MainModal onClose={() => closeModal('change-ssh-key-modal')} customButtons={<></>} title="SSH Key">
       <StyledModalBody>
-        <Box display={'flex'} flexDirection={'column'} position={'relative'}>
-          {sshKeys.length === 0 && isLoading && (
-            <Box position={'absolute'} sx={{ marginTop: '15%', marginLeft: '47%' }}>
-              <Loader size={40} />
-            </Box>
-          )}
-
-          {sshKeys.length > 0 ? (
-            <Box mt={5} display={'flex'} flexDirection={'column'}>
-              <Box display={'flex'} flexDirection={'column'}>
-                <Box display={'grid'} gridTemplateColumns={'1fr 1fr'} gap={2} mt={2}>
-                  {sshKeys.map((sshKey) => (
-                    <StyledCard isSelected={false}>
-                      <CardActionArea
-                        key={sshKey.id}
-                        sx={{
-                          boxShadow: 'none',
-                          borderRadius: '10px',
-                        }}
-                      >
-                        <CardContent
+        {isLoading ? (
+          <Box display={'flex'} flexDirection={'column'} position={'relative'}>
+          <Box position={'absolute'} sx={{ marginTop: '5%', marginLeft: '47%' }}>
+            <Loader size={40} />
+          </Box>
+          </Box>
+        ) : (
+          <Box display={'flex'} flexDirection={'column'} position={'relative'}>
+            {sshKeys.length > 0 ? (
+              <Box mt={5} display={'flex'} flexDirection={'column'}>
+                <Box display={'flex'} flexDirection={'column'}>
+                  <Box display={'grid'} gridTemplateColumns={'1fr 1fr'} gap={2} mt={2}>
+                    {sshKeys.map((sshKey) => (
+                      <StyledCard isSelected={false}>
+                        <CardActionArea
+                          key={sshKey.id}
                           sx={{
-                            border: 'none',
+                            boxShadow: 'none',
+                            borderRadius: '10px',
                           }}
                         >
-                          <Box display={'flex'} onClick={() => onChangeSshKey(sshKey)} gap={1}>
-                            <Box display={'flex'} flexDirection={'column'} justifyContent={'center'}>
-                              <TypographyPrimary value={sshKey.name} size="medium" semiBold />
+                          <CardContent
+                            sx={{
+                              border: 'none',
+                            }}
+                          >
+                            <Box display={'flex'} onClick={() => onChangeSshKey(sshKey)} gap={1}>
+                              <Box display={'flex'} flexDirection={'column'} justifyContent={'center'}>
+                                <TypographyPrimary value={sshKey.name} size="medium" semiBold />
+                              </Box>
                             </Box>
-                          </Box>
-                        </CardContent>
-                      </CardActionArea>
-                    </StyledCard>
-                  ))}
+                          </CardContent>
+                        </CardActionArea>
+                      </StyledCard>
+                    ))}
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-          ) : (
-            <Box
-              display={'flex'}
-              justifyContent={'center'}
-              flexDirection={'column'}
-              alignItems={'center'}
-              mt={6}
-              gap={1}
-            >
-              <TypographyPrimary value="No results found" size="x-large" bold />
-              <TypographySecondary value="Please add sshkeys first." size="xs-small" />
-            </Box>
-          )}
-        </Box>
+            ) : (
+              <Box
+                display={'flex'}
+                justifyContent={'center'}
+                flexDirection={'column'}
+                alignItems={'center'}
+                mt={6}
+                gap={1}
+              >
+                <TypographyPrimary value="No results found" size="x-large" bold />
+                <Link to="/secrets" style={{
+                  textDecoration: 'none',
+                }} onClick={() => closeModal('change-ssh-key-modal')}>
+                  <TypographySecondary value="Please add sshkeys first." size="xs-small" style={{
+                    textDecorationLine: 'underline',
+                  }} />
+                </Link>
+              </Box>
+            )}
+          </Box>
+        )}
       </StyledModalBody>
     </MainModal>
   );

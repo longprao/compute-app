@@ -1,4 +1,5 @@
 import { FormikProvider } from 'formik';
+import { Link } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
@@ -6,7 +7,6 @@ import useRegister from 'pages/Auth/Register/useRegister';
 import TextFieldFormik from 'components/TextFieldFormik';
 
 import { StyledCenterFormContainer } from 'styles/globalStyle.css';
-import { useModal } from 'hooks';
 
 import githubIcon from 'assets/icons/githubIcon.png';
 import { StyledImageWrapper, StyledImg, StyledInnerButtonWrapper } from 'components/HeaderButtons/HeaderButtons';
@@ -28,8 +28,7 @@ const Register = () => {
   const loginConfig = getDomainConfig('login_page');
 
   const { t } = useTranslation();
-  const { formik, alertMessage } = useRegister({ noPopup: !loginConfig?.popup });
-  const { openModal } = useModal();
+  const { formik, alertMessage, isLoading } = useRegister({ noPopup: !loginConfig?.popup });
 
   const { githubLogin } = useGithubLogin();
 
@@ -37,8 +36,6 @@ const Register = () => {
 
   return (
     <StyledCenterFormContainer>
-      {alertMessage.message && alertMessage.type && <span>{alertMessage.message}</span>}
-
       <StyledHeaderWrapper>
         <HeadingSecondary
           value={t('join-our-community')}
@@ -89,7 +86,9 @@ const Register = () => {
           </FormikProvider>
         )}
 
-        <ButtonPrimary onClick={formik.handleSubmit}>{t('sign-up')}</ButtonPrimary>
+        {alertMessage.message && alertMessage.type && <TypographyPrimary value={alertMessage.message} size={TypographySizes.sm} />}
+
+        <ButtonPrimary onClick={formik.handleSubmit} loading={isLoading}>{t('sign-up')}</ButtonPrimary>
 
         {loginConfig?.popup && (
           <StyledLoginWrapper>
@@ -98,11 +97,9 @@ const Register = () => {
               type={TypographyTypes.LABEL}
               size={TypographySizes.md}
             />
-            <button
-              onClick={() => {
-                openModal({ name: 'login-modal', data: { isRegister: false } });
-              }}
-            >
+            <Link to="/login" style={{
+              textDecoration: 'none',
+            }}>
               <TypographyPrimary
                 value={t('login')}
                 type={TypographyTypes.LABEL}
@@ -113,10 +110,9 @@ const Register = () => {
                   cursor: 'pointer',
                   textAlign: 'center',
                   textUnderlineOffset: 5,
-                  marginTop: 18,
                 }}
               />
-            </button>
+            </Link>
           </StyledLoginWrapper>
         )}
       </StyledFormContainer>
@@ -136,9 +132,9 @@ const StyledFormContainer = styled.div`
   margin-top: 22px;
   display: grid;
   grid-row-gap: 22px;
-  padding: 0 87px;
-  width: 550px;
-  max-width: 550px;
+  width: 100%;
+  max-width: 400px;
+  padding: 0 16px;
 `;
 const StyledLoginWrapper = styled.div`
   display: flex;

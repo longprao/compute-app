@@ -38,7 +38,7 @@ export const AddCreditToggleButtonGroup = ({
 
 export const StyledToggleButton = styled(ToggleButton)<{ buttonValue: string; labelValue: string }>`
     &&& {
-        padding: 9px;
+        padding: 4px 9px;
         font-weight: 600;
         color: ${({ theme, buttonValue, labelValue }) =>
             buttonValue === labelValue ? theme.basicForeground.white : theme.body.textColorPrimary};

@@ -46,4 +46,6 @@ export default FieldLabel
 
 const StyledLabel = styled.label`
   color: #fff;
+  display: block;
+  min-height: 24px;
 `

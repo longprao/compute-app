@@ -30,7 +30,7 @@ export const renderColumns = ({ handleOpenUpdateSSHModal, handleDeleteSSH }: Ren
     width: 500,
   },
   {
-    Header: 'Createds',
+    Header: 'Created',
     accessor: 'created_at',
     minWidth: 100,
     width: 150,

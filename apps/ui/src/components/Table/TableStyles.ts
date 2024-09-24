@@ -96,6 +96,10 @@ export const StyledTh = styled.th`
 
     user-select: none;
     position: relative;
+    
+    &:last-child {
+        border-right: none;
+    }
 `
 
 export const PaginationWrapper = styled.div`

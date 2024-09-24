@@ -1,23 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import About from 'share-ui/components/Icon/Icons/components/About';
-// import Add from 'share-ui/components/Icon/Icons/components/Add'
-import ValueOutline from 'share-ui/components/Icon/Icons/components/ValueOutline';
-import Collection from 'share-ui/components/Icon/Icons/components/Collection';
-import Team from 'share-ui/components/Icon/Icons/components/Team';
-import Launch from 'share-ui/components/Icon/Icons/components/Launch';
-import Mobile from 'share-ui/components/Icon/Icons/components/Mobile';
-import { useLocation, useNavigate } from 'react-router-dom';
-import includes from 'lodash/includes';
 import { t } from 'i18next';
-import AvatarDropDown, { ThemeProps } from 'components/AvatarDropDown';
-import { useDomainConfig } from 'utils/useDomainConfig';
-import Tooltip from 'share-ui/components/Tooltip/Tooltip';
-import Chats from 'share-ui/components/Icon/Icons/components/Chats';
-import Integrations from 'share-ui/components/Icon/Icons/components/integrations';
-import FineTuning from 'share-ui/components/Icon/Icons/components/FineTuning';
-// eslint-disable-next-line import/no-named-as-default
-import Cloud from 'share-ui/components/Icon/Icons/components/Cloud';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styled, { css } from 'styled-components'
+import AvatarDropDown, { ThemeProps } from 'components/AvatarDropDown'
 import {
   AddOutline,
   BoardTemplate,
@@ -26,13 +11,20 @@ import {
   Person,
   Search,
   Teams,
-} from 'share-ui/components/Icon/Icons';
-import ModeSwitcher from 'components/ModeSwitcher';
-import { useAppModeContext } from 'context/AppModeContext';
-import Key from 'share-ui/components/Icon/Icons/components/Key';
-import { accountTypeEnum } from 'types/account';
-import Subnet from 'share-ui/components/Icon/Icons/components/Subnet';
-import { AuthContext } from 'contexts';
+  BurgerMenu,
+} from '../../share-ui/components/Icon/Icons';
+import About from '../../share-ui/components/Icon/Icons/components/About';
+import Cloud from '../../share-ui/components/Icon/Icons/components/Cloud';
+import Collection from '../../share-ui/components/Icon/Icons/components/Collection';
+import FineTuning from '../../share-ui/components/Icon/Icons/components/FineTuning';
+import Key from '../../share-ui/components/Icon/Icons/components/Key';
+import Launch from '../../share-ui/components/Icon/Icons/components/Launch';
+import Mobile from '../../share-ui/components/Icon/Icons/components/Mobile';
+import Subnet from '../../share-ui/components/Icon/Icons/components/Subnet';
+import Team from '../../share-ui/components/Icon/Icons/components/Team';
+import ValueOutline from '../../share-ui/components/Icon/Icons/components/ValueOutline';
+import Tooltip from '../../share-ui/components/Tooltip/Tooltip';
+import { useDomainConfig } from '../../utils/useDomainConfig';
 
 interface NavigationPermissions {
   pod: boolean;
@@ -72,7 +64,12 @@ const getNavigationList = ({ permission, pathname }: { permission: NavigationPer
   },
 ];
 
-const MainNavigation = ({ restricted, theme }: { restricted?: boolean; theme: ThemeProps }) => {
+type Props = {
+  restricted?: boolean
+  theme: ThemeProps
+}
+
+const MainNavigation = ({ restricted, theme }: Props) => {
   const domainEnv = import.meta.env;
   const isDatura = domainEnv.REACT_APP_ENV === 'datura';
 
@@ -86,6 +83,7 @@ const MainNavigation = ({ restricted, theme }: { restricted?: boolean; theme: Th
   const { pathname } = useLocation();
 
   const [active, setActive] = useState<string[]>([]);
+  const [showSidebar, setShowSidebar] = useState(false)
 
   const onHandleClick = (navigation_name: string) => {
     navigate(navigation_name);
@@ -107,7 +105,10 @@ const MainNavigation = ({ restricted, theme }: { restricted?: boolean; theme: Th
   const navigation_list = getNavigationList({ permission, pathname });
 
   return (
-    <StyledRoot>
+    <StyledRoot $showSidebar={showSidebar}>
+      <StyledMenu onClick={() => setShowSidebar(prevState => !prevState)} title="Toggle Menu">
+        <BurgerMenu size={40} />
+      </StyledMenu>
       <StyledUl>
         <Tooltip content={t('home')} position={Tooltip?.positions?.LEFT}>
           <StyledLi
@@ -138,20 +139,50 @@ const MainNavigation = ({ restricted, theme }: { restricted?: boolean; theme: Th
         </StyledInnerWrapper>
       </StyledBottomSection>
     </StyledRoot>
-  );
-};
+  )
+}
 
-export default MainNavigation;
+export default MainNavigation
 
-const StyledRoot = styled.div`
-  height: 100%;
-
+const StyledRoot = styled.div<{ $showSidebar: boolean }>`
+  height: 100vh;
+  width: 80px;
+  transition: left 0.1s ease-in-out;
   display: flex;
   flex-direction: column;
   align-items: center;
-
   padding-bottom: 24px;
-`;
+  background: rgb(32 33 36);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  @media (max-width: 767px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: auto;
+    padding-top: 28px;
+    
+    ${({ $showSidebar }) => !$showSidebar && css`
+      height: 28px;
+      overflow: hidden;
+      padding: 28px 0 0 0;
+    `}
+  }
+`
+
+const StyledMenu = styled.button`
+  position: fixed;
+  top: -4px;
+  left: 16px;
+  display: none;
+
+  @media (max-width: 767px) {
+    display: block;
+  }
+`
 
 const StyledUl = styled.ul`
   height: 100%;
@@ -179,8 +210,8 @@ const StyledLi = styled.li<{ isActive?: boolean }>`
   cursor: pointer;
 
   ${({ isActive }) =>
-    isActive &&
-    `
+  isActive &&
+  `
     opacity: 1;
     
     border-radius: 100px;

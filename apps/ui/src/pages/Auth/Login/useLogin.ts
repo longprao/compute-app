@@ -31,6 +31,11 @@ const useLogin = () => {
     initialValues: initialValues,
     validationSchema,
     onSubmit: async (values) => {
+      setAlertMessage({
+        type: '',
+        message: '',
+      });
+
       try {
         const response = await login({
           email: values.email,
@@ -46,9 +51,8 @@ const useLogin = () => {
         }
 
         setAlertMessage({ type: 'danger', message: 'Login error' });
-      } catch (error) {
-        console.log(error);
-        setAlertMessage({ type: 'danger', message: 'Login error' });
+      } catch (error: any) {
+        setAlertMessage({ type: 'danger', message: error?.data?.detail || 'Login error' });
       }
     },
   });
@@ -77,6 +81,7 @@ const useLogin = () => {
     authLoginCompleteLoading: isLoading,
     activateAccountLoading: false,
     resendVerifyEmailLoading: false,
+    isLoading,
   };
 };
 

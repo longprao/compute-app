@@ -3,7 +3,7 @@ import Home from './pages/Home';
 import {
   ForgotPassword,
   Login,
-  // Register,
+  Register,
   ResetPassword,
   TwoFAuthentication,
   GithubLogin,
@@ -109,6 +109,7 @@ const Route = () => {
           <Router path="/google-login" element={<GoogleLogin />} />
           <Router path="/forgot-password" element={<ForgotPassword />} />
           <Router path="/login" element={<Login />} />
+          <Router path="/register" element={<Register />} />
           <Router path="/reset-password/:id" element={<ResetPassword />} />
           <Router path="/authentication/:id" element={<TwoFAuthentication />} />
           <Router path="/login/update-password" element={<UpdatePassword />} />

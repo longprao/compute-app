@@ -113,7 +113,6 @@ const StyledWrapperGroup = styled.div`
 `
 const StyledTabContext = styled(TabsContext)`
     max-height: 600px;
-    overflow: scroll;
     scrollbar-width: none;
     ::-webkit-scrollbar {
         display: none;

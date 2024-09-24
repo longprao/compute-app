@@ -32,13 +32,13 @@ const FilterPods = ({ values, handleChangeFilter }: any) => {
     <Box display={'flex'} flexDirection={'column'}>
       <Box display={'flex'} alignItems={'center'}>
         {/* temporary hide */}
-        {/* <ToggleButton 
-          options={[{ label: "GPU", value: 'gpu' }, { label: "CPU", value: 'cpu'}]} 
+        {/* <ToggleButton
+          options={[{ label: "GPU", value: 'gpu' }, { label: "CPU", value: 'cpu'}]}
           onChange={() => {}}
           value={'gpu'}
         /> */}
 
-        <Box display={'flex'} alignItems={'center'}>
+        <Box display={'flex'} alignItems={'center'} gap={1}>
           <DropDownMenu
             buttonContent={() => (
               <Box display={'flex'} alignItems={'center'} gap={0.5}>
@@ -57,7 +57,7 @@ const FilterPods = ({ values, handleChangeFilter }: any) => {
 
           <StyledButton color='primary' size='small'>
             <Box display={'flex'} alignItems={'center'} gap={0.5}>
-              <StyledSettingsIcon size={30} />
+              <StyledSettingsIcon size={20} />
               <TypographyPrimary value={'Network Volume'} size='xs-small' />
             </Box>
           </StyledButton>
@@ -84,8 +84,8 @@ const FilterPods = ({ values, handleChangeFilter }: any) => {
       </Box>
 
       <Box sx={{ height: hideMenu ? '100px' : '0px', transition: '0.3s', overflow: 'hidden' }}>
-        <Box mt={2} display={'flex'} alignItems={'center'}>
-          <Box display={'flex'} flexDirection={'column'} ml={1} mt={'10px'} gap={0.5}>
+        <Box mt={2} display={'flex'}>
+          <Box display={'flex'} flexDirection={'column'} ml={1} gap={0.5}>
             <TypographySecondary value='vCPUs / GPU' size='xs-small' semiBold />
 
             <Box width={'100px'}>
@@ -131,7 +131,7 @@ const FilterPods = ({ values, handleChangeFilter }: any) => {
                   padding: '7px',
                 }}
                 buttonContent={() => (
-                  <Box display={'flex'} flexDirection={'column'}>
+                  <Box display={'flex'} flexDirection={'column'} p="3px">
                     <TypographyPrimary value={values.cuda_version} size='small' />
                   </Box>
                 )}

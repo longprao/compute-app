@@ -18,83 +18,77 @@ const Price = ({ selectedPlan, formik, resource }: PriceProps) => {
   return (
     <Box
       sx={{
-        width: '100%',
-        boxSizing: 'border-box',
+        display: 'flex',
+        gap: '20px',
+        flexWrap: 'wrap',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          gap: '20px',
-        }}
-      >
-        <Box sx={{ ...borderBoxStyles, width: '49%' }} display={'flex'} flexDirection={'column'}>
-          <TypographyPrimary value='Pricing Summary' bold size='medium' />
+      <Box sx={{ ...borderBoxStyles, width: '49%' }} display={'flex'} flexDirection={'column'}>
+        <TypographyPrimary value='Pricing Summary' bold size='medium' />
 
-          {!selectedPlan.per_mont ? (
-            <StyledInfoWrapper>
-              <TypographySecondary
-                value={`GPU Cost: $${(selectedPlan.default_price * maxGpu).toFixed(2)} / hr`}
-                size='small'
-              />
-              <TypographySecondary value={`Running Disk Cost: $0.008 / hr`} size='small' />
-              <TypographySecondary value={`Exited Disk Cost: $0.006 / hr`} size='small' />
-            </StyledInfoWrapper>
-          ) : (
-            <>
+        {!selectedPlan.per_mont ? (
+          <StyledInfoWrapper>
+            <TypographySecondary
+              value={`GPU Cost: $${(selectedPlan.default_price * maxGpu).toFixed(2)} / hr`}
+              size='small'
+            />
+            <TypographySecondary value={`Running Disk Cost: $0.008 / hr`} size='small' />
+            <TypographySecondary value={`Exited Disk Cost: $0.006 / hr`} size='small' />
+          </StyledInfoWrapper>
+        ) : (
+          <>
+            <Box>
               <Box>
-                <Box>
-                  <Box
-                    display={'flex'}
-                    alignItems={'center'}
-                    justifyContent={'space-between'}
-                    mt={2}
-                  >
-                    <TypographyPrimary value={`Upfront Costs`} size='small' semiBold />
-                    <TypographyPrimary
-                      value={`$${(selectedPlan.default_total_price
-                        ? selectedPlan.default_total_price * maxGpu
-                        : 0
-                      ).toFixed(2)}`}
-                      size='small'
-                      bold
-                    />
-                  </Box>
-
-                  <TypographySecondary
-                    value={`${resource.display_name} x ${maxGpu}`}
+                <Box
+                  display={'flex'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  mt={2}
+                >
+                  <TypographyPrimary value={`Upfront Costs`} size='small' semiBold />
+                  <TypographyPrimary
+                    value={`$${(selectedPlan.default_total_price
+                      ? selectedPlan.default_total_price * maxGpu
+                      : 0
+                    ).toFixed(2)}`}
                     size='small'
+                    bold
                   />
-                  <TypographySecondary value={selectedPlan.title} size='small' />
                 </Box>
 
-                <Box>
-                  <TypographyPrimary value={`Usage-Based Costs`} size='small' semiBold />
+                <TypographySecondary
+                  value={`${resource.display_name} x ${maxGpu}`}
+                  size='small'
+                />
+                <TypographySecondary value={selectedPlan.title} size='small' />
+              </Box>
 
-                  <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
-                    <TypographySecondary value={resource.display_name} size='small' />
-                    <TypographyPrimary value={'$0.008 /hr'} size='small' semiBold />
-                  </Box>
-                  <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
-                    <TypographySecondary value={selectedPlan.title} size='small' />
-                    <TypographyPrimary value={'$0.014 /hr'} size='small' semiBold />
-                  </Box>
+              <Box>
+                <TypographyPrimary value={`Usage-Based Costs`} size='small' semiBold />
+
+                <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+                  <TypographySecondary value={resource.display_name} size='small' />
+                  <TypographyPrimary value={'$0.008 /hr'} size='small' semiBold />
+                </Box>
+                <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+                  <TypographySecondary value={selectedPlan.title} size='small' />
+                  <TypographyPrimary value={'$0.014 /hr'} size='small' semiBold />
                 </Box>
               </Box>
-            </>
-          )}
-        </Box>
-        <StyledInfoWrapper>
-          <TypographyPrimary value={`Pod Summary`} size='medium' bold />
-
-          <TypographySecondary
-            value={`${maxGpu}x ${resource.display_name} (${resource.ram * maxGpu} GB VRAM)`}
-            size='small'
-          />
-          <TypographySecondary value={'Running Disk Cost: $0.006 / hr'} size='small' />
-          <TypographySecondary value={'Exited Disk Cost: $0.006 / hr'} size='small' />
-        </StyledInfoWrapper>
+            </Box>
+          </>
+        )}
       </Box>
+      <StyledInfoWrapper>
+        <TypographyPrimary value={`Pod Summary`} size='medium' bold />
+
+        <TypographySecondary
+          value={`${maxGpu}x ${resource.display_name} (${resource.ram * maxGpu} GB VRAM)`}
+          size='small'
+        />
+        <TypographySecondary value={'Running Disk Cost: $0.006 / hr'} size='small' />
+        <TypographySecondary value={'Exited Disk Cost: $0.006 / hr'} size='small' />
+      </StyledInfoWrapper>
     </Box>
   )
 }

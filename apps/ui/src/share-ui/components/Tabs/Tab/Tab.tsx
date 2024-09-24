@@ -116,6 +116,10 @@ const StyledLi = styled.li<{ focus: boolean; disabled: boolean }>`
     z-index: 0;
   }
 
+  @media (max-width: 767px) {
+    min-width: 0;
+  }
+
   ${props =>
     props.focus &&
     css`
@@ -183,6 +187,10 @@ const StyledA = styled.a<{ active: boolean; disabled: boolean; size: string; isE
     background-color: ${({ theme }) => theme?.tabs.hoverBgColor};
 
     border-radius: 60px;
+  }
+
+  @media (max-width: 767px) {
+     min-width: 0;
   }
 
   ${props =>

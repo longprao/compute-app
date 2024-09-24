@@ -142,3 +142,10 @@ button {
 .l3-style-dialog-content-wrapper {
   z-index: 102030;
 }
+
+.react-select {
+  [class$="-control"] {
+    min-height: 0;
+    border-width: 1px;
+  }
+}

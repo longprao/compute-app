@@ -110,9 +110,8 @@ export default PodsMainCard
 const StyledCard = styled.div`
   position: relative;
   width: 335px;
-  min-width: 335px;
+  max-width: 100%;
   height: 330px;
-  min-height: 330px;
 
   padding: 20px 25px;
   /* padding-top: 30px; */

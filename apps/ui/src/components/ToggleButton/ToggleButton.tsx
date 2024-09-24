@@ -60,7 +60,7 @@ const CustomToggleButton = ({ value, onChange, options, icon }: ToggleButtonProp
           }}
         >
           {icon && icon}
-          <Typography sx={{ marginLeft: '5px' }} fontSize={14}>
+          <Typography fontSize={14}>
             {option.label}
           </Typography>
         </ToggleButton>

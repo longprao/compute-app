@@ -87,5 +87,4 @@ export default FormikTextField
 
 export const StyledTitle = styled.div`
   color: ${({ theme }) => theme.typography.contentPrimary};
-  padding-top: 5px;
 `

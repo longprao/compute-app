@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { ToastContext } from 'contexts';
 import { useModal } from 'hooks';
@@ -33,11 +34,17 @@ const initialValues = {
 const useRegister = ({ noPopup }: { noPopup: boolean }) => {
   const [alertMessage, setAlertMessage] = React.useState({ type: '', message: '' });
   const [sginup, { isLoading }] = useSingupMutation();
+  const navigate = useNavigate();
 
   const { openModal, closeModal } = useModal();
 
   const { setToast } = useContext(ToastContext);
   const handleSubmit = async (values: any) => {
+    setAlertMessage({
+      type: '',
+      message: '',
+    });
+
     try {
       const data = { ...values };
       await sginup(data).unwrap();
@@ -47,13 +54,14 @@ const useRegister = ({ noPopup }: { noPopup: boolean }) => {
         type: 'positive',
         open: true,
       });
-      {
-        noPopup ? closeModal('login-modal') : openModal({ name: 'login-modal', data: { isRegister: false } });
-      }
+
+      return setTimeout(() => {
+        navigate('/login');
+      }, 100);
     } catch (error: any) {
       setAlertMessage({
         type: 'danger',
-        message: error?.detail || 'User email is already registered',
+        message: error?.data?.detail || 'User email is already registered',
       });
     }
   };
@@ -77,6 +85,7 @@ const useRegister = ({ noPopup }: { noPopup: boolean }) => {
   return {
     formik,
     alertMessage,
+    isLoading,
   };
 };
 

@@ -89,13 +89,7 @@ const General = () => {
               )}
             </StyledRow>
             <FormikProvider value={formik}>
-              <Box
-                display={'grid'}
-                gridTemplateColumns={'1fr 1fr 120px'}
-                gap={3}
-                width={'70%'}
-                mt={3}
-                alignItems={'center'}
+              <StyledPayment
               >
                 <FormikTextField
                   name="auto_pay_threshold"
@@ -109,12 +103,12 @@ const General = () => {
                   label={'Auto-Pay Amount'}
                   disabled={!is_card_added}
                 />
-                <Box mt={3}>
+                <Box py={0.8}>
                   <Button size="small" disabled={!is_card_added} onClick={() => formik.handleSubmit()}>
                     Edit
                   </Button>
                 </Box>
-              </Box>
+              </StyledPayment>
             </FormikProvider>
           </StyledBody>
         </StyledContentContainer>
@@ -151,15 +145,13 @@ const StyledRow = styled.div`
 
   gap: 10px;
 
-  width: 400px;
-
-  & + & {
-    margin-top: 10px;
+  max-width: 400px;
+  
+  @media (max-width: 767px) {
+    flex-wrap: wrap;
   }
 `;
 export const StyledText = styled.div`
-  width: 30px;
-
   height: 100%;
 
   display: flex;
@@ -167,8 +159,6 @@ export const StyledText = styled.div`
   align-items: flex-end;
 
   font-size: 16px;
-
-  margin-top: 2px;
 `;
 const StyledImg = styled.img`
   object-fit: cover;
@@ -178,3 +168,17 @@ const StyledImg = styled.img`
   width: 150px;
   height: 100px;
 `;
+
+const StyledPayment = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 120px;
+  align-items: flex-end;
+  gap: 24px;
+  max-width: 600px;
+  margin-top: 24px;
+
+  @media (max-width: 767px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+`

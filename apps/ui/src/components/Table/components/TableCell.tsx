@@ -140,6 +140,10 @@ const StyledTd = styled.div<{ isEditing: boolean; cursorPointer: boolean; noBord
       }
       border-right: unset;
     `};
+
+  &:last-child {
+    border-right: none;
+  }
 `
 const StyledWrapper = styled.div`
   border: 1px solid #000;

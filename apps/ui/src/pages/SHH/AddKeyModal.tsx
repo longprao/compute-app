@@ -21,7 +21,7 @@ const AddKeyModal = () => {
     <FormikProvider value={formik}>
       <MainModal
         onClose={handleCloseModal}
-        title={'Add SHH key'}
+        title={'Add SSH Key'}
         submitLoading={create_shh_loader}
         onSubmit={formik.handleSubmit}
       >
@@ -38,11 +38,11 @@ export default withRenderModal('add-shh-key-modal')(AddKeyModal)
 
 export const StyledBody = styled.div`
   padding: 20px;
-  padding-top: 0;
-
   width: 90vw;
   max-width: 700px;
   min-width: 400px;
-
   height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `

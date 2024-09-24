@@ -1,26 +1,20 @@
-import { ReactNode, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { ReactNode } from 'react';
 import { AuthContext } from 'contexts';
 
 import { useTranslation } from 'react-i18next';
 import { useDomainConfig } from 'utils/useDomainConfig';
 import WelcomeLoader from 'components/Loader/WelcomeLoader';
-import { useLazyGetMeQuery } from 'redux/apis/userApi';
+import { useGetMeQuery } from 'redux/apis/userApi';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { i18n } = useTranslation();
   const { getDomainConfig } = useDomainConfig();
-  const { pathname } = useLocation();
 
-  const [getme, { isLoading }] = useLazyGetMeQuery();
+  const { isLoading } = useGetMeQuery();
 
   const user = useSelector((state: RootState) => state.auth.user);
-
-  useEffect(() => {
-    getme();
-  }, [getme, pathname]);
 
   const contextValue = {
     isAuthenticated: !!user,

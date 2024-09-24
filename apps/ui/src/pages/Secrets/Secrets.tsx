@@ -38,7 +38,7 @@ const Secrets = () => {
 
   const buttonProperties = [
     { label: 'Create Secret', onClick: handleOpenCreateSecretModal },
-    { label: 'Add SHH', onClick: handleOpenSHHModal },
+    { label: 'Add SSH Key', onClick: handleOpenSHHModal },
   ];
 
   return (
@@ -88,5 +88,10 @@ export const StyledTabListWrapper = styled.header`
   display: flex;
   /* align-items: center; */
   justify-content: space-between;
+  padding-top: 4px;
   padding-right: 20px;
+
+  @media (max-width: 767px) {
+    flex-wrap: wrap;
+  }
 `;

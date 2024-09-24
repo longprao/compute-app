@@ -7,6 +7,7 @@ import TabPanels from 'share-ui/components/Tabs/TabPanels/TabPanels'
 import TabPanel from 'share-ui/components/Tabs/TabPanel/TabPanel'
 
 import { useState } from 'react'
+import { useMediaQuery } from 'usehooks-ts';
 import ProfileSettings from './ProfileSettings'
 import UpdatePassword from './UpdatePassword'
 
@@ -17,6 +18,7 @@ import Loader from 'share-ui/components/Loader/Loader'
 import WelcomeLoader from 'components/Loader/WelcomeLoader'
 
 const Profile = () => {
+    const isMobile = useMediaQuery('(max-width: 767px)')
     const { delete_loader, handleDeleteAccount, formik } = useProfile()
 
     const [activeTab, setActiveTab] = useState(0)
@@ -35,12 +37,12 @@ const Profile = () => {
                         <StyledLeftColumn>
                             <StyledMainInfo>
                                 <StyledImg
-                                    src={
-                                        formik.values.avatar ||
-                                        'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg'
-                                    }
+                                  src={
+                                    formik.values.avatar ||
+                                    'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg'
+                                  }
                                 />
-                                <TabList activeTabId={activeTab} noBorder isColumn>
+                                <TabList activeTabId={activeTab} noBorder isColumn={!isMobile}>
                                     <Tab onClick={() => handleTabClick(0)}>Profile settings</Tab>
                                     <Tab onClick={() => handleTabClick(1)}>Update Password</Tab>
                                     <Tab onClick={handleDeleteAccount}>
@@ -101,20 +103,22 @@ const StyledWrapper = styled.div`
 const StyledBody = styled.div`
     display: flex;
     gap: 20px;
+    
+    @media (max-width: 767px) {
+        flex-direction: column;
+    }
 `
 
 const StyledLeftColumn = styled.div`
     display: flex;
     /* justify-content: center; */
 
-    width: 300px;
+    flex-basis: 300px;
 `
 const StyledMainInfo = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    width: 100%;
 `
 
 const StyledImg = styled.img`
@@ -125,4 +129,6 @@ const StyledImg = styled.img`
     border-radius: 100px;
 
     object-fit: contain;
+    display: block;
+    margin: 0 auto 16px;
 `

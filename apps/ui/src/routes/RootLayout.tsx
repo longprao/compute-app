@@ -2,10 +2,9 @@ import React from 'react';
 import { AuthContext } from 'contexts';
 import { Navigate, useOutlet } from 'react-router-dom';
 
-import ChatSwitcher from 'components/ChatSwitcher';
-
 import styled from 'styled-components';
 import { ThemeProps } from 'components/AvatarDropDown';
+import MainNavigation from '../pages/Navigation/MainNavigation';
 
 const RootLayout = ({ theme }: { theme: ThemeProps }) => {
   const { user, loading } = React.useContext(AuthContext);
@@ -16,7 +15,7 @@ const RootLayout = ({ theme }: { theme: ThemeProps }) => {
 
   return (
     <StyledRoot>
-      {user && <ChatSwitcher theme={theme} />}
+      {user && <MainNavigation theme={theme} />}
       <StyledOutletWrapper>{outlet}</StyledOutletWrapper>
     </StyledRoot>
   );
@@ -26,7 +25,7 @@ export default RootLayout;
 
 export const StyledRoot = styled.div`
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
 
   background: ${({ theme }) => theme.body.backgroundColorPrimary};
@@ -34,5 +33,9 @@ export const StyledRoot = styled.div`
 export const StyledOutletWrapper = styled.div`
   width: 100%;
   max-width: calc(100vw - 80px);
-  height: 100%;
+  min-height: 100vh;
+
+  @media screen and (max-width: 767px) {
+    max-width: 100%;
+  }
 `;

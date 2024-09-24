@@ -49,4 +49,4 @@ export const userApi = createApi({
   }),
 });
 
-export const { useLazyGetMeQuery, useSingupMutation, useLoginMutation } = userApi;
+export const { useGetMeQuery, useLazyGetMeQuery, useSingupMutation, useLoginMutation } = userApi;
